@@ -164,26 +164,20 @@ REST_FRAMEWORK = {
 
 
 import os
+import dj_database_url
 
-# Production settings (Railway)
-if os.environ.get('RAILWAY_ENVIRONMENT'):
-    DEBUG = False
-    ALLOWED_HOSTS = ['*']
-
-    import dj_database_url
+# Always configure database from DATABASE_URL if available
+DATABASE_URL = os.environ.get('DATABASE_URL')
+if DATABASE_URL:
     DATABASES = {
         'default': dj_database_url.config(
-            default=os.environ.get('DATABASE_URL'),
+            default=DATABASE_URL,
             conn_max_age=600,
         )
     }
-
+    DEBUG = False
+    ALLOWED_HOSTS = ['*']
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-    CORS_ALLOW_ALL_ORIGINS = False
-    CORS_ALLOWED_ORIGINS = [
-        os.environ.get('FRONTEND_URL', 'https://marocmiam.vercel.app'),
-    ]
-
+    CORS_ALLOW_ALL_ORIGINS = True
     SECRET_KEY = os.environ.get('SECRET_KEY', SECRET_KEY)

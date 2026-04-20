@@ -4,9 +4,10 @@ import App from './App.jsx'
 import './index.css'
 import { AuthProvider } from './context/AuthContext'
 import { CartProvider } from './context/CartContext'
+import { LanguageProvider } from './context/LanguageContext'
 import { onForegroundMessage } from './firebase';
 import toast from 'react-hot-toast';
-// Handle foreground notifications
+
 onForegroundMessage((payload) => {
   const { title, body } = payload.notification;
   toast(
@@ -21,12 +22,15 @@ onForegroundMessage((payload) => {
     }
   );
 });
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <AuthProvider>
-      <CartProvider>
-        <App />
-      </CartProvider>
-    </AuthProvider>
+    <LanguageProvider>
+      <AuthProvider>
+        <CartProvider>
+          <App />
+        </CartProvider>
+      </AuthProvider>
+    </LanguageProvider>
   </React.StrictMode>,
 )

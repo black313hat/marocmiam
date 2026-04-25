@@ -181,3 +181,6 @@ if DATABASE_URL:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
     CORS_ALLOW_ALL_ORIGINS = True
     SECRET_KEY = os.environ.get('SECRET_KEY', SECRET_KEY)
+    
+    
+    CSRF_TRUSTED_ORIGINS = ['https://marocmiam.duckdns.org']
